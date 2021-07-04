@@ -10,20 +10,18 @@ from account.models import Account
 
 
 def index(request):
-    #if request.user.is_authenticated:
-    #    return HttpResponseRedirect(reverse("Research_work:research_work_page"))
+    
+    # If an user is authenticated , he/she is directed to the main research work page. Else he is directed to the index page , which asks the user to login.
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("Research_work:research_work_page"))
 
-    #else :
-
+    else :
+    # The form from the front end takes the required credentials and tries to authenticate the user, In case the credentials are not valid, the message is displyed to convey the same.
         if request.method == 'POST':
-
             email = request.POST.get("email")
             password = request.POST.get("password")
 
-
             user = authenticate(request,email=email,password=password)
-
-            
 
             if user is not None:
                 login(request,user)
@@ -34,10 +32,12 @@ def index(request):
 
         return render(request,"index.html")
 
-
+    
+# The signup view is used to signup a new user , it also takes the required user info needed.
 def signup(request):
     context = {}
 
+    # user registration form , this form is based on the Custom User Model created.
     if request.POST:
         form = RegistrationsForm(request.POST)
 
@@ -50,11 +50,9 @@ def signup(request):
             designation   = form.cleaned_data.get('designation')
             mobile_number = form.cleaned_data.get('mobile_number')
             department    = form.cleaned_data.get('department')
-
-    	   
+            
             user = form.save()
             login(request,user)
-
             return HttpResponseRedirect(reverse("Research_work:research_home_page"))
 
         else:
@@ -67,23 +65,22 @@ def signup(request):
     return render(request,'signup.html',context)
 
 
-
-
-
+# After the signup/login process the user is redirected to the research page.
 def research(request):
     return render(request,'base.html')
 
-    
+# The page collects 4 main aspects of a teacher's research work : 
+# 1) The publication work
+# 2) The Research Grant work
+# 3) The consultation work.
 
 def publication(request):
-
     # user variable is set in the name of currently logged in user.
     user = request.user
-    
-    # all the publications related to the user are quered
+    # all the publications related to the user are queried
     publications = user.publications.all()
 
-
+    # The follow block of code helps to filter the publication work using the user specific needs.
     if request.method == 'POST':
          year = request.POST.get("select-year")
 
@@ -91,13 +88,13 @@ def publication(request):
              return render(request,'publications.html',{"publications":publications})
 
          publications = publications.filter(date_of_publication__year = year)
-
          return render(request,'publications.html',{"publications":publications})
 
     return render(request,'publications.html',{"publications":publications})
 
+
+# This segment of code is used to add the publication work of the user.
 def add_publication(request):
-    
     
     if request.method == 'POST':
         form = AddPublicationForm(request.POST)
@@ -116,23 +113,18 @@ def add_publication(request):
             publication_status    = form.cleaned_data.get('publication_status')
 
         return HttpResponseRedirect(reverse("Research_work:publication_page"))
-
-            
-    context = {}
-
-    form = AddPublicationForm()
-
-    context['add_publication_form'] = form
-
     
-
+    context = {}
+    form = AddPublicationForm()
+    context['add_publication_form'] = form
     return render(request,'add_publications.html',context)
 
+
+# This function takes up the research grant work.
 def research_grant(request):
-    
+ 
     # user variable is set in the name of currently logged in user.
     user = request.user
-    
     # all the research grant related to the user are quered
     research_grants = user.research_grants.all()
 
@@ -170,20 +162,14 @@ def add_research_grant(request):
 
             
     context = {}
-
     form = AddResearchGrantForm()
-
     context['add_research_grant_form'] = form
-
-    
-
     return render(request,'add_research_grant.html',context)
 
 
 def consultancy(request):
      # user variable is set in the name of currently logged in user.
     user = request.user
-    
     # all the consultancy work related to the user are quered
     consultancies = user.consultancies.all()
 
@@ -195,7 +181,6 @@ def consultancy(request):
             
         consultancies = consultancies.filter(revenue_granted_date__year = year)
         return render(request,'consultancy.html',{"consultancies":consultancies})
-
 
     return render(request,'consultancy.html',{"consultancies":consultancies})
 
@@ -212,50 +197,16 @@ def add_consultancy(request):
             revenue_granted_date        = form.cleaned_data.get('revenue_granted_date')
             revenue_generated           = form.cleaned_data.get('revenue_generated')
             status_of_consultancy_work  = form.cleaned_data.get('status_of_consultancy_work')
-
-
-        return HttpResponseRedirect(reverse("Research_work:consultancy_page"))
-
             
+        return HttpResponseRedirect(reverse("Research_work:consultancy_page"))
+       
     context = {}
-
     form = AddConsultancyWorkForm()
-
     context['add_consultancy_work_form'] = form
-
-    
-
     return render(request,'add_consultancy_work.html',context)
 
-    
-def admin_page(request):
-
-    publications = {}
-    publications_name = {}
-
-    teachers = Account.objects.all().filter(department = 'CSE')
-    teacher_name = teachers.values_list('username',flat=True)
-
-    for teacher in teachers:
-        publications[teacher] = teacher.publications.all()
-
-    for i in publications:
-        publications_name[]
-    
-
-    print(publications)
-
-    if request.method == 'POST':
-        teachers = request.POST.get("select-teacher")
-      
-        return render(request,"admin_page.html",{"teachers":teachers,"teacher_name":teacher_name})
-
-
-    
-
-        
-    return render(request,"admin_page.html",{"teacher_name":teacher_name,"teachers":teachers})
-
+   
+# The logout section of the code
 def logout_view(request):
     logout(request)
     return render(request,'index.html')
