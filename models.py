@@ -2,10 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser , BaseUserManager
 from django.conf import settings
 
-# Create your models here.
 
 # class MyAccountManager is an Manger class used to manage the Custom User Model we have created.
 # It contains 2 funtions : create_user and create_superuser which as their name sugests create user nad superuser respectively.
+
 class MyAccountManager(BaseUserManager):
     def create_user(self,email,username,password=None):
         if not email:
@@ -13,13 +13,9 @@ class MyAccountManager(BaseUserManager):
         if not username:
             raise ValueError("User should have an name")
         
-    
-        
         user = self.model(
             email = self.normalize_email(email),
             username = username,
-            
-
         )
 
         user.set_password(password)
@@ -31,24 +27,20 @@ class MyAccountManager(BaseUserManager):
             email = self.normalize_email(email),
             username = username,
             password = password,
-            
-
+           
         )
-
 
         user.is_admin     = True
         user.is_staff     = True
         user.is_superuser = True 
-
         user.save(using=self._db)
         return user
 
 
 # This is the Custom User Model, it has to contain is_admin,is_active,is_staff,is_superuser otherwise Custom Model User dosent work.
 # The User Model is named as Account
-#  
-class Account(AbstractBaseUser):
 
+class Account(AbstractBaseUser):
 
     Department = [
 
@@ -163,35 +155,8 @@ class research_grant(models.Model):
        return self.teacher_email_id.username +" : " + self.project_title
 
 
-# 3) patent model is used to collect info on all the patent of a particular teacher.
-class patent(models.Model):
 
-    Patent_origin = [
-        ('Indian Patent','Indian Patent'),
-        ('Foreign Patent','Foreign Patent')
-    ]
-
-    Patent_status = [
-        ('Filed','Filed'),
-        ('Published','Published'),
-        ('Granted','Granted')
-    ]
-
-    teacher_email_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='patents')
-    authors = models.TextField()
-    patent_application_number = models.CharField(max_length=200)
-    patent_title = models.CharField(max_length=200)
-    inventor = models.CharField(max_length=400)
-    patent_origin = models.CharField(max_length=100,choices=Patent_origin)
-    patent_status = models.CharField(max_length=100,choices=Patent_status)
-    patent_filed_date = models.DateField()
-    patent_published_date = models.DateField(blank=True,null=True)
-    patent_granted_date = models.DateField(blank=True,null=True)
-
-    def __str__(self):
-        return self.teacher_email_id.username +" : " + self.patent_title
-
-# 4) consultancy model is used to collect info on all the consultancy of a particular teacher.
+# 3) consultancy model is used to collect info on all the consultancy of a particular teacher.
 class consultancy(models.Model):
 
     Consultancy_status = [
