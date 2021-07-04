@@ -3,9 +3,7 @@ from account.models import Account,publication,research_grant,patent,consultancy
 from django.contrib.auth.admin import UserAdmin
 
 
-# Register your models here.
-
-
+# AccountAdmin is used to create a admin access for the Custom User Model created.
 class AccountAdmin(UserAdmin):
     list_display = ('email','username','date_joined','last_login','is_admin','is_staff','PF_number','designation','mobile_number','department')
     search_fields = ('email','username',)
