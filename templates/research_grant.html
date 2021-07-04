@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css_files %}
+        <link  rel="stylesheet" href="../static/all_research_work.css">
+{% endblock css_files %}
+
+{% block title %}
+        Research Grant
+{% endblock title %}
+
+{% block body %}
+    <p class="allignleft">Existing Research Grants</p>
+    
+    <a href="{% url 'Research_work:add_research_grant_page'%}" class="myButton clearfix">Add Research Grants</a>
+
+    <br>
+    
+    <form action="" method="post" style="margin-left: 15%;">
+
+        {% csrf_token %}
+        <label for="select-year"><h3 style="display: inline;">Select a Year</h3></label>
+        <select name="select-year" id="select-year" onchange='this.form.submit()'>
+            <option value="">...</option>
+            <option value="ALL">ALL</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+        </select>
+        
+    </form>
+
+
+    <div class="">
+        <table id="customers">
+          <tr>
+              <th>Name</th>
+              <th>Project Title</th>
+              <th>Principle Investigator</th>
+              <th>Co-Principle Investigator</th>
+              <th>Funding Agency</th>
+              <th>Scheme</th>
+              <th>Project Status</th>
+              <th>Granted Date</th>
+              <th>Submitted Date</th>
+              
+          </tr>
+  
+          {% for research_grant in research_grants %}
+  
+          <tr>
+              <td>{{ research_grant.teacher_email_id.username }}</td>
+              <td>{{ research_grant.project_title }}</td>
+              <td>{{ research_grant.principle_investigator_name }}</td>
+              <td>{{ research_grant.co_principle_investigator_name }}</td>
+              <td>{{ research_grant.funding_agency }}</td>
+              <td>{{ research_grant.scheme }}</td>
+              <td>{{ research_grant.project_status }}</td>
+              <td>{{ research_grant.granted_date }}</td>
+              <td>{{ research_grant.submitted_date }}</td>
+              
+                      
+          </tr>
+  
+          {% endfor %}
+       </table>    
+      </div>
+{% endblock body %}

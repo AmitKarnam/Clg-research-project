@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=	, initial-scale=1.0">
+    <title>Add Publications</title>
+    <link  rel="stylesheet" href="../static/all_add_research_work.css">
+</head>
+<body>
+    
+<body style="background-color:#eff3f6;">
+
+    <h1>Enter the details of Publication</h1>
+
+    <hr>
+    <form action="{% url 'Research_work:add_publication_page' %}" method="post">
+        {% csrf_token %} 
+        
+        {{ add_publication_form.as_p }}
+
+        
+        {% if field.help_text %}
+        <br>
+        <small style="color:rgb(102, 102, 102);">{{ field.help_text }}</small>
+        {% endif %}
+
+        <input type="submit" value="Add">
+    </form>
+</html>

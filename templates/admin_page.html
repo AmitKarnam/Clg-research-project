@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+</head>
+<body>
+    <h1>ADMIN PAGE</h1>
+    <hr>
+
+    
+
+
+    <form action="" method="post" style="margin-left: 15%;">
+        {% csrf_token %}
+        <label for="select-teacher"><h3 style="display: inline;">Select a Teacher</h3></label>
+        <select name="select-teacher" id="select-teacher" onchange='this.form.submit()'>
+            <option value="">...</option>
+            <option value="ALL">ALL</option>
+            {% for teacher in teacher_name %}
+                <option>{{ teacher }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    
+<div>
+
+    <h2>PUBLICATIONS</h2>
+    {% for teacher in teachers %}
+        
+        <p></p>
+        <p>{{ teacher.username }} </p>
+        <p>{{ teacher.publications.all }}</p>
+
+        <hr>
+        
+    {% endfor %}
+
+    
+</div>
+
+<div>
+    <h2>Research Grant</h2>
+
+    {% for teacher in teachers %}
+        
+        <p></p>
+        <p>{{ teacher.username }} </p>
+        <p>{{ teacher.research_grants.all }}</p>
+
+        <hr>
+        
+    {% endfor %}
+</div>
+
+<div>
+    <h2>Consultancy</h2>
+
+    {% for teacher in teachers %}
+        
+        <p></p>
+        <p>{{ teacher.username }} </p>
+        <p>{{ teacher.consultancies.all }}</p>
+
+        <hr>
+        
+    {% endfor %}
+</div>
+
+<div>
+    <h2>Patent</h2>
+
+    {% for teacher in teachers %}
+        
+        <p></p>
+        <p>{{ teacher.username }} </p>
+        <p>{{ teacher..all }}</p>
+
+        <hr>
+        
+    {% endfor %}
+</div>
+        
+
+</body>
+</html>

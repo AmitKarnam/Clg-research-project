@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+    {% block css_files %}
+        <link  rel="stylesheet" href="../static/all_research_work.css">
+    {% endblock css_files %}
+
+    {% block title %}
+        Publications
+    {% endblock title %}
+
+    {% block body %}
+    <p class="allignleft">Existing Publications</p>
+    
+    <a href="{% url 'Research_work:add_publication_page'%}" class="myButton clearfix">Add Publication</a>
+
+    <br>
+
+    <form action="" method="post" style="margin-left: 15%;">
+        {% csrf_token %}
+        <label for="select-year"><h3 style="display: inline;">Select a Year</h3></label>
+        <select name="select-year" id="select-year" onchange='this.form.submit()'>
+            <option value="">...</option>
+            <option value="ALL">ALL</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+        </select>
+        
+    </form>
+
+    <div class="">
+      <table id="customers">
+        <tr>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>issn or issbn</th>
+            <th>Journal Name</th>
+            <th>Publication Type</th>
+            <th>Date of Publication</th>
+            <th>DOI</th>
+            <th>Impact Factor</th>
+            <th>Publication Status</th>
+        </tr>
+
+        {% for publication in publications %}
+
+        <tr>
+            <td>{{ publication.teacher_email_id.username }}</td>
+            <td>{{ publication.paper_title }}</td>
+            <td>{{ publication.paper_authors}}</td>
+            <td>{{ publication.issn_or_issbn}}</td>
+            <td>{{ publication.journal_name_or_conference_name }}</td>
+            <td>{{ publication.publication_type }}</td>
+            <td>{{ publication.date_of_publication }}</td>
+            <td>{{ publication.DOI }}</td>
+            <td>{{ publication.impact_factor}}</td>
+            <td> {{ publication.publication_status }}</td>
+                    
+        </tr>
+
+        {% endfor %}
+     </table>    
+    </div>
+    {% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+    {% block css_files %}
+        <link  rel="stylesheet" href="../static/all_research_work.css">
+    {% endblock css_files %}
+
+    {% block title %}
+        Consultancy
+    {% endblock title %}
+
+    {% block body %}
+    <p class="allignleft">Existing Consultancy Work</p>
+    
+    <a href="{% url 'Research_work:add_consultancy_page'%}" class="myButton clearfix">Add Consultancy work</a>
+
+    <br>
+
+    <form action="" method="post" style="margin-left: 15%;">
+        {% csrf_token %}
+        <label for="select-year"><h3 style="display: inline;">Select a Year</h3></label>
+        <select name="select-year" id="select-year" onchange='this.form.submit()'>
+            <option value="">...</option>
+            <option value="ALL">ALL</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+        </select>
+        
+    </form>     
+
+    <div class="">
+      <table id="customers">
+        <tr>
+            <th>Name</th>
+            <th>Consultancy Name</th>
+            <th>Consultancy Project Name</th>
+            <th>Sponsoring agency</th>
+            <th>Revenue Granted Date</th>
+            <th>Revenue Generated work</th>
+            <th>Status of work</th>
+
+            
+        </tr>
+
+        {% for consultancy in consultancies %}
+
+        <tr>
+            <td>{{ consultancy.teacher_email_id.username }}</td>
+            <td>{{ consultancy.name_of_consultancy}}</td>
+            <td>{{ consultancy.name_of_consultancy_project}}</td>
+            <td>{{ consultancy.sponsoring_agency}}</td>
+            <td>{{ consultancy.revenue_granted_date}}</td>
+            <td>    {{ consultancy.revenue_generated}}</td>
+            <td>{{ consultancy.status_of_consultancy_work}}</td>
+                    
+        </tr>
+
+        {% endfor %}
+     </table>    
+    </div>
+    {% endblock %}

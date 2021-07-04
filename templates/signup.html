@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="../static/signup.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+
+</head>
+<body style="background-color:#eff3f6;">
+     
+    <div class="">
+        <h1>Create account</h1>
+    </div>
+
+    <form action="{% url 'Research_work:signup_page' %}" method="post">
+        {% csrf_token %} 
+
+        {% for field in registration_form %}
+            <p>
+                {{ field.label_tag }}
+                {{ field }}
+
+
+                {% if field.help_text %}
+                    <small style="color:grey;">   {{ field.help_text }}</small>
+
+                {% endif %}
+
+
+                {% for error in field.errors %}
+                     <div style="color:red"> {{ error }} </div> 
+                {% endfor %}
+            </p>
+
+        {% endfor %}
+        <input  type="submit" value="Signup">
+    </form>
+
+
+
+</body>
+</html>

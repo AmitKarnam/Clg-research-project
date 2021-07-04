@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+    {% block css_files %}
+
+        <link rel="stylesheet" href="../static/teachers_info.css">
+
+    {% endblock css_files %}
+
+    {% block title %}
+        More Info
+    {% endblock title %}
+
+    {% block body %}
+
+    <br>
+    <div class="">
+        <h1>Basic Information</h1>
+    </div>
+
+    <hr>
+
+    <form action="{% url 'Research_work:teachers_info_page' %}" method="post">
+        {% csrf_token %} 
+        {{ new_form.as_p }}
+        <input  type="submit" value="Sign Up">
+    </form>
+
+    {% endblock body %}

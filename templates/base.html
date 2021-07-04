@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+    {% block css_files %}
+    {% endblock css_files %}
+
+
+    <meta charset="utf-8">
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+    <link rel="stylesheet" href="../static/base.css">
+  </head>
+  <body style="background-color:#eff3f6;">
+    <div class="header">
+      <table>
+        <tr>
+          <td>  <img id='img-align' src="../static/images/logo.png" alt=""></td>
+          <td class="txt-align"><h1>WELCOME</h1>
+          <p><b>SJBIT RESEARCH PORTAL</b></p></td>
+        </tr>
+      </table>
+
+      
+
+</div>
+
+<div class="navbar">
+  <a href="{% url 'Research_work:research_home_page'%}" class="active">Home</a>
+  <a href="{% url 'Research_work:publication_page'%}">Publication</a>
+  <a href="{% url 'Research_work:research_grant_page'%}">Research Grant</a>
+  <a href="{% url 'Research_work:consultancy_page'%}">Consultancy</a>
+  <a href="#">Patent</a>
+</div>
+
+{% if request.user.is_authenticated %}  
+        <h4 style="float:right;clear:both;margin-top: 10px;margin-right: 10px;">Hello, {{ request.user.username }} || <a href="{% url 'Research_work:logout_page' %}">LOGOUT</a> </h4> 
+{% endif %}
+
+<br><br><br>
+
+{% block body %}
+{% endblock %}
+
+
+  </body>
+</html>
